@@ -12,7 +12,12 @@ Descriptions on each of the files and how to use the codes to run simulation stu
 
 Here's a list of all files and short descriptions:
 
-1. `synthetic.rds`: This is a synthetic dataset which contains covariates and locations of $n=225$ observations. The covariates were generated based on the population characteristics of the subset of real EHR data we used for simulation study. The locations were uniformly chosen in the $[-1,1] \times [-1,1]$ box. 
+1. `synthetic.rds`: Synthetic dataset which contains covariates and locations of $n=225$ observations. The covariates were generated based on the population characteristics of the subset of real EHR data we used for simulation study. The locations were uniformly chosen in the $[-1,1] \times [-1,1]$ box. With this file, the simulation codes can be run. However, as it's different from the real data that we used, the results will be different from what was presented in the manuscript.
+2. `functions.R`: Contains customized functions used for the simulation study.
+3. `CRS_is_GP2.stan`: `Stan` file used for the proposed Bayesian competing risks spatial model using Gaussian Process (GP) priors.
+4. `CRS_is_HSGP5.stan`: `Stan` file used for the proposed Bayesisan competing risks spatial model using a Hilbert space low-rank approximation for GP (HSGP).
+5. `1.sim_spec.R`: Codes to set up specifications for the simulation study. After executing this script, a `spec` file will be output to the user-specified folder.
+6. `2.sim_freq.R`, `2.sim_GP.R` and `2.sim_HSGP.R`: Codes to generate 500 competing risks datasets using the synthetic data and then do model fitting, respectively using frequentist methods, full GP and HSGP.
 
 
 ## Application
