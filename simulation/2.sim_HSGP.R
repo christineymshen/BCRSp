@@ -12,7 +12,7 @@ infolder <- ""
 library(rstan)
 
 runnum <- 1 # in case multiple runs were needed for the same spec
-nsim <- 2 # number of simulations per slurm_id
+nsim <- 500 # number of simulations per slurm_id
 isoverwrite <- T # whether overwrite existing saved run results
 source(paste0(infolder,"functions.R"))
 
