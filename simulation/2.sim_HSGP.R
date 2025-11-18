@@ -4,7 +4,9 @@
 slurm_id <- 1
 specnum <- 1
 
+# folder path to store the simulation results
 outfolder <- ""
+# folder path which stores "functions.R" and the spec file
 infolder <- ""
 
 library(rstan)

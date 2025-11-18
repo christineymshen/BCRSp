@@ -2,9 +2,14 @@
 specnum <- 1
 runnum <- 1
 nsim <- 500
+
+# folder path which stores the "functions.R" file and the spec file
 infolder <- ""
+# folder path with GP run results
 resfolder_GP <- ""
+# folder path with HSGP run results
 resfolder_HSGP <- ""
+# folder path with frequentist methods run results
 resfolder_freq <- ""
 
 library(rstan)

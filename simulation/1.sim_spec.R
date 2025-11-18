@@ -1,5 +1,7 @@
 
-outfolder <- "~/CRS/paper/"
+# update the output folder path here
+outfolder <- ""
+
 source(paste0(outfolder, "functions.R"))
 nu <- 3/2
 m <- 2 # number of risk types

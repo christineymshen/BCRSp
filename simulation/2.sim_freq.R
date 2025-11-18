@@ -2,7 +2,9 @@
 specnum <- 1
 library(survival)
 
+# folder path to store the simulation results
 outfolder <- ""
+# folder path which stores "functions.R" and the spec file
 infolder <- ""
 
 runnum <- 1
