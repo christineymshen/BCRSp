@@ -10,7 +10,9 @@ Descriptions on each of the files and how to use the codes to run simulation stu
 
 ## Simulation
 
+Here's a list of all files and short descriptions:
 
+1. `synthetic.rds`: This is a synthetic dataset which contains covariates and locations of $n=225$ observations. The covariates were generated based on the population characteristics of the subset of real EHR data we used for simulation study. The locations were uniformly chosen in the $[-1,1] \times [-1,1]$ box. 
 
 
 ## Application
