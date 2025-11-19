@@ -25,8 +25,10 @@ Steps:
 1. Save `synthetic.rds` and `functions.R` in the same folder, use this path as the input folder path in the other R script files.
 2. Run `1.sim_spec.R` file, a `spec1.rds` file will be output in the same folder.
 3. Open `2.sim_freq.R` file, specify an output folder path and run it. It should take at most a few minutes. Note that we've set the maximum number of iterations to 100 to ensure convergence of the `coxph` function. There are codes towards the end of this file to check convergence. If the number of iterations of any runs exceeds the maximum, please increase it and rerun.
-4. Open the other two `2.sim_[].R` files, specify an output folder path, and run. The two Bayesian models take significantly longer time, especially the one with full GP. To reproduce our simulation study and obtain results on 500 simulated datasets, we'd suggest setting up parallel runs on a server. Check the runtime results discussed in the manuscript to decide how you might want to set it up.
-5. After all the runs, update the relevant folder path in `3.sim_summary.R` and run this file to obtain summary figures as presented in the manuscript.
+4. Open the other two `2.sim_[].R` files, specify an output folder path, and run. The two Bayesian models take significantly longer time, especially the one with full GP. To reproduce our simulation study and obtain results on 500 simulated datasets, we'd suggest:
+  + Setting up parallel runs on a server. Check the runtime results discussed in the manuscript to decide how you might want to set it up.
+  + Pre-compiling the `Stan` file, and use that for the parallel runs to save runtime. See the codes currently commend out after the line to compile the `Stan` file.
+6. After all the runs, update the relevant folder paths in `3.sim_summary.R` and run this file to obtain summary figures as presented in the manuscript.
 
 ## Application
 
