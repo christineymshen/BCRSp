@@ -1,4 +1,4 @@
-# BCRSp
+# Bayesian competing risks spatial model
 
 This repository contains reproducible codes for manuscript titled "Discovering Spatial Patterns of Readmission Risk Using a Bayesian Competing Risks Model with Spatially Varying Coefficients". In the manuscript, we described a simulation study and an application on Duke Electronic Health Record (EHR) data. Because the EHR data contain Protected Health Information (PHI), we cannot share these data. Here we have prepared:
 
@@ -42,4 +42,4 @@ Here's a list of all the files and short descriptions:
 9. `3.summary_betatable.R`: Script to create Table 2 in the manuscript.
 10. `3.summary_kmeans.R`: Script for k-mean clustering on the spatial random effects to create Figure 9 in the manuscript and related figures in the Supplement.
 11. `3.summary_spatial.R`: Script to create Figure 8 in the manuscript and related figures in the Supplement.
-12. `3.summary_waic_beta.R`: Script to produce cross validation results using WAIC, and 
+12. `3.summary_waic_beta.R`: Script to produce cross validation results using WAIC.
