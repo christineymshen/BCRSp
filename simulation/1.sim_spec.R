@@ -1,8 +1,9 @@
 
-# update the output folder path here
-outfolder <- ""
+# update the output folder path here, make sure the path ends with "/"
+infolder <- ""
+outfolder <- infolder
 
-source(paste0(outfolder, "functions.R"))
+source(paste0(infolder, "functions.R"))
 nu <- 3/2
 m <- 2 # number of risk types
 rt_labels <- sprintf("risktype%d",c(1:m))
@@ -26,7 +27,7 @@ bdd <- 1; by <- 0.1 # parameters for the grid for krigging
 nGP <- sum(isModeli+isModels) # number of GP per risk type
 
 # get covariates
-data_synthetic <- readRDS("synthetic.rds")
+data_synthetic <- readRDS(paste0(infolder, "synthetic.rds"))
 
 d <- cbind(data_synthetic$x, data_synthetic$y)
 

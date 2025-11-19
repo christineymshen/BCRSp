@@ -2,13 +2,15 @@
 specnum <- 1
 library(survival)
 
-# folder path to store the simulation results
+# folder path to store the simulation results, make sure the path ends with "/"
 outfolder <- ""
-# folder path which stores "functions.R" and the spec file
+# folder path which stores "functions.R" and the spec file, make sure the path ends with "/"
 infolder <- ""
 
 runnum <- 1
 nsim <- 500
+
+max_niter <- 100
 
 source(paste0(infolder,"functions.R"))
 
@@ -40,9 +42,9 @@ for (i in 1:nsim){
   data1 <- cbind(sim$data,X) %>%
     mutate(event=factor(event))
   
-  # maximum number of iteration set to 100 to ensure convergence
+  # set maximum number of iteration to ensure convergence
   mod1 <- coxph(as.formula(paste0("Surv(time,event) ~",label)), data1, id=c(1:n),
-                control=coxph.control(iter.max=100))
+                control=coxph.control(iter.max=max_niter))
   
   data2 <- cbind(data1,group=data_kmeans$cluster) %>% 
     mutate(group=factor(group))
@@ -53,9 +55,9 @@ for (i in 1:nsim){
   X <- cbind(X,X1)
   label <- paste(colnames(X),collapse = "+")
   
-  # maximum number of iteration set to 100 to ensure convergence
+  # set maximum number of iteration to ensure convergence
   mod2 <- coxph(as.formula(paste0("Surv(time,event) ~",label)), data2, id=c(1:n),
-                control=coxph.control(iter.max=100))
+                control=coxph.control(iter.max=max_niter))
   
   mod1_niter[i] <- mod1$iter
   mod2_niter[i] <- mod2$iter
@@ -72,7 +74,7 @@ for (i in 1:nsim){
 # checking number of iterations used for each run to ensure convergence
 range(mod1_niter)
 hist(mod1_niter)
-which(mod1_niter>=100)
+which(mod1_niter>=max_niter)
 range(mod2_niter)
 hist(mod2_niter)
-which(mod2_niter>=100)
+which(mod2_niter>=max_niter)

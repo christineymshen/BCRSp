@@ -4,9 +4,9 @@
 slurm_id <- 1
 specnum <- 1
 
-# folder path to store the simulation results
+# folder path to store the simulation results, make sure the path ends with "/"
 outfolder <- ""
-# folder path which stores "functions.R" and the spec file
+# folder path which stores "functions.R" and the spec file, make sure the path ends with "/"
 infolder <- ""
 
 library(rstan)
@@ -22,6 +22,7 @@ spec <- readRDS(paste0(infolder, "spec_",specnum,".rds"))
 n <- spec$n
 start_seed <- (slurm_id-1)*nsim
 mod <- stan_model(paste0(infolder, "CRS_is_GP2.stan"))
+# mod <- readRDS(paste0(infolder, "CRS_is_GP2_mod.rds"))
 
 for (i in 1:nsim){
   seed <- start_seed+i
