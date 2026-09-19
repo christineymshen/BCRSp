@@ -1,5 +1,7 @@
 # Bayesian competing risks spatial model
 
+Testing
+
 This repository contains reproducible codes for the manuscript titled "Discovering Spatial Patterns of Readmission Risk Using a Bayesian Competing Risks Model with Spatially Varying Coefficients". In the manuscript, we described a simulation study and an application on Duke Electronic Health Record (EHR) data. Because the EHR data contain Protected Health Information (PHI), we cannot share these data publicly. Here we have prepared:
 
 
