@@ -1,0 +1,25 @@
+Mapping of the run specifications:
+
+1: Base with slopes and intercepts
+2. Low correlation with slopes and intercepts
+3. High correlation with slopes and intercepts
+4. k=100 with slopes and intercepts
+5. Base with intercepts only
+6. Low correlation with intercepts only
+7. High correlation with intercepts only
+8. k=100 with intercepts only
+9. Censoring sensitivity with slopes and intercepts
+10. Censoring sensitivity with intercepts only
+11. Base without spatial
+12. Low correlation without spatial
+13. High correlation without spatial
+14. k=100 without spatial
+15. Censoring sensitivity without spatial
+17. Longer range sensitivity, with slopes and intercepts (parameter 2, 4)
+18. Larger sigma_tau for GP magnitude sensitivity, with slopes and intercepts (sigma_tau=10)
+19. Smaller sigma_tau for GP magnitude sensitivity, with slopes and intercepts (sigma_tau=1)
+21. Longer range sensitivity, with intercepts only (parameter 2, 4)
+22. Larger sigma_tau for GP magnitude sensitivity, with intercepts only (sigma_tau=10)
+23. Smaller sigma_tau for GP magnitude sensitivity, with intercepts only (sigma_tau=1)
+24. Shorter range sensitivity, with slopes and intercepts (parameter 4, 1) (long runtime)
+25. Shorter range sensitivity, with intercepts only (parameter 4, 1) (long runtime)

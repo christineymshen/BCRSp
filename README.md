@@ -1,50 +1,69 @@
-# Bayesian competing risks spatial model
+# Bayesian competing risks model with spatially varying coefficients
 
-Testing
+Code accompanying the manuscript **“Discovering Spatial Patterns of Readmission Risk Using a Bayesian Competing Risks Model with Spatially Varying Coefficients.”**
 
-This repository contains reproducible codes for the manuscript titled "Discovering Spatial Patterns of Readmission Risk Using a Bayesian Competing Risks Model with Spatially Varying Coefficients". In the manuscript, we described a simulation study and an application on Duke Electronic Health Record (EHR) data. Because the EHR data contain Protected Health Information (PHI), we cannot share these data publicly. Here we have prepared:
+The repository contains R and Stan code for the simulation study and the application to Duke electronic health record (EHR) data. The original EHR data contain protected health information and cannot be shared publicly. Therefore, we have prepared a synthetic dataset for illustration.
 
+The synthetic dataset and two other data files used for visualization are provided in the `data` folder. Stan code is stored in the `stan` folder. In the `application` folder, we provide scripts used for the real-data application. Most of these scripts are for inspection only and cannot be executed using the public data alone. To illustrate the analysis, we also provide example scripts in the `application/R/example` folder. In the `simulation` folder, we provide scripts used for the simulation study. The simulation scripts use a subset of covariates and locations from the application data and generate competing-risks outcomes. Results obtained using synthetic data will differ from the manuscript results.
 
-1. In the `simulation` folder, `R` and `Stan` codes used for the simulation study. In our simulation study, we used the covariates and jittered locations of a subset of the EHR data to create the simulated datasets to ensure they closely resemble the real data. As we cannot share the EHR data, we have created a synthetic dataset based on the population characteristics of our EHR data, with locations uniformly drawn in a $2 \times 2$ box. We provide codes such that covariates and locations are extracted from these synthetic data to create competing risk datasets for simulation study. In this ways, the codes are executable. However, results will be different from those presented in our manuscript.
-2. In the `application` folder, all the `R` and `Stan` codes we used for the application. These codes are not executable as we cannot make the underlying data available.
+Detailed descriptions of the scripts and instructions for using them are provided below.
 
-Descriptions on each of the files and how to use the codes to run simulation study are provided below. 
+## Code structure
 
-## Simulation
+For both the application and the simulation, R scripts are organized into three subfolders: `run`, `spec`, and `summary`:
 
-Here's a list of all the files with short descriptions:
+  - Model specification files (i.e., spec files) are in the `spec` folder. For example, spec 1 in the application folder is for our primary analysis (rather than the sensitivity analyses) with both spatial intercepts and spatial slopes, while spec 5 is for the primary analysis with spatial intercepts only. The mapping between spec numbers and models is recorded in the `speclog` file in the same folder. Running each of these scripts creates an `rds` file in the `application/spec` or `simulation/spec` folder. These `rds` files will later be used for model fitting and summarizing model results.
 
-1. `synthetic.rds`: Synthetic dataset which contains covariates and locations of $n=225$ observations. The covariates were generated based on the population characteristics of the subset of real EHR data we used for the simulation study. Locations of these observations were uniformly drawn in the $[-1,1] \times [-1,1]$ box. Using this file, the simulation codes can be run. However, the results will be different from what was presented in the manuscript as the locations and covariates are different from what we used.
-2. `functions.R`: Customized functions used for the simulation study.
-3. `CRS_is_GP2.stan`: `Stan` file for the proposed Bayesian competing risks spatial model using Gaussian Process (GP) priors.
-4. `CRS_is_HSGP5.stan`: `Stan` file for the proposed Bayesisan competing risks spatial model using a Hilbert space low-rank approximation for GP (HSGP).
-5. `1.sim_spec.R`: Codes to set up specifications for the simulation study. After executing this script, a `spec` file will be output to the user-specified folder.
-6. `2.sim_freq.R`, `2.sim_GP.R` and `2.sim_HSGP.R`: Codes to generate 500 competing risks datasets using the synthetic data and then do model fitting, respectively using frequentist methods, full GP and HSGP.
-7. `3.sim_summary.R`: Summarize model fitting results and produce figures presented in the manuscript.
+  - Model fitting files (i.e., run files) are in the `run` folder. These files will read in spec files based on the spec number specified by the user and then fit the model using Stan files. Run results will be stored in the `application/res` or `simulation/res` folders.
 
-Steps:
+  - Results summary files (i.e., summary files) are in the `summary` folder. These files summarize and visualize run results for each model.
 
-1. Save `synthetic.rds` and `functions.R` in the same folder, use this path as the input folder path in the other R script files.
-2. Run `1.sim_spec.R` file, a `spec1.rds` file will be output in the same folder.
-3. Open `2.sim_freq.R` file, specify an output folder path and run it. It should take at most a few minutes. Note that we've set the maximum number of iterations to 100 to ensure convergence of the `coxph` function. There are codes towards the end of this file to check convergence. If the number of iterations of any runs exceeds the maximum, please increase it and rerun.
-4. Open the other two `2.sim_[].R` files, specify an output folder path, and run. The two Bayesian models take significantly longer time, especially the one with full GP. To reproduce our simulation study and obtain results on 500 simulated datasets, we'd suggest:
-  + Setting up parallel runs on a server. Check the runtime results discussed in the manuscript to decide how you might want to set it up.
-  + Pre-compiling the `Stan` file, and use that for the parallel runs to save runtime. See the codes currently commend out after the line to compile the `Stan` file.
-6. After all the runs, update the relevant folder paths in `3.sim_summary.R` and run this file to obtain summary figures as presented in the manuscript.
+## Data
+
+There are three files in the `data` folder.
+
+  - `synthetic_v2.rds` contains a synthetic dataset with $n=1,200$ observations. The covariate distributions are similar to those in our real EHR data. Locations were uniformly drawn from the study region. This file is used in the application example scripts, as well as the simulation scripts.
+
+  - The other two files contain geographical information that is used only to visualize model fitting results.
+
+## Stan
+
+There are four Stan files in this folder:
+
+  - `CRS7.stan`: Bayesian competing risks model, without spatial random effects
+  - `CRS_i_HSGP11.stan`: Bayesian competing risks model with spatially varying intercepts, implemented using an HSGP approximation to a GP
+  - `CRS_is_HSGP9.stan`: Bayesian competing risks model with spatially varying intercepts and slopes, implemented using an HSGP approximation to a GP
+  - `CRS_is_GP3.stan`: Bayesian competing risks model with spatially varying intercepts and slopes, implemented using a full GP
 
 ## Application
 
-Here's a list of all the files with short descriptions:
+Scripts for the real-data application are stored in the `application/R` folder.
 
-1. `functions.R`: Customized functions used for the EHR data analysis.
-2. `CRS_i_HSGP3.stan`: `Stan` file for the Bayesian competing risks model with spatial intercepts only.
-3. `CRS_is_HSGP5.stan`: `Stan` file for the Bayesian competing risks model with both spatial intercepts and spatial slopes.
-4. `CRS7.stan`: `Stan` file for the Bayesian competing risks model without spatial effects.
-5. `1.spec_base.R": Create spec file for the base run.
-6. `1.spec_highcorr.R`, `1.spec_lowcorr.R`, `1.spec_k100.R`: Create spec files for the sensitivity runs.
-7. `2.run_nsp.R`: Script for Bayesian competing risks model run without spatial effects.
-8. `2.run_sp.R`: Script for Bayesian competing risks model runs with spatial intercept, or with both spatial intercepts and slopes.
-9. `3.summary_betatable.R`: Script to create Table 2 in the manuscript.
-10. `3.summary_kmeans.R`: Script for k-mean clustering on the spatial random effects to create Figure 9 in the manuscript and related figures in the Supplement.
-11. `3.summary_spatial.R`: Script to create Figure 8 in the manuscript and related figures in the Supplement.
-12. `3.summary_waic_beta.R`: Script to produce cross validation results using WAIC.
+  - The `functions.R` file contains helper functions.
+  - Scripts in the `run`, `spec`, and `summary` folders were used for the EHR data analysis. They are for inspection only and are not executable because we are not able to share the EHR data.
+  - Scripts in the `example` folder are for illustrative purposes and can be executed. They are adapted from the scripts for our primary analysis using the proposed Bayesian model with both spatial intercepts and spatial slopes. The scripts were modified only to allow them to run on the synthetic data.
+
+To use the example scripts:
+
+1. Run the three `1.spec[specnum].R` files. `1.spec1.R` specifies the model for the primary analysis with both spatial intercepts and slopes, `1.spec5.R` specifies the model with only spatial intercepts, and `1.spec11.R` specifies the model without spatial random effects. After running these files, the corresponding model specification `rds` files will be saved in the `application/spec/` folder. Note that the `spec1.rds` file is already in the repository. This file can be created from the `1.spec1.R` file. The simulation specification scripts require this file, so we include it in case users try to run simulation scripts before using the application example scripts.
+
+2. Run the `2.run1.R` file for model fitting. A total of three model runs are needed, one for each spec. Users can manually change the `specnum` parameter in this run file for different runs. The default setup uses four parallel chains, each with 5,000 iterations, including 1,000 warmup iterations. Users can adjust these parameters in the run file. Run results will be saved in the `application/res/` folder.
+
+3. Run the `3.spec1_base.R` file to analyse and visualize the run results. Figures will be saved in the `application/fig/` folder. Note that because the synthetic data differ from the real EHR data, the results will be different from those presented in the manuscript.
+
+## Simulation
+
+Scripts for the simulation study are stored in the `simulation/R` folder.
+
+  - The `functions.R` file contains helper functions.
+  - Scripts in the `run`, `spec`, and `summary` folders were adapted from those used for our simulation study. The scripts were modified only to allow them to run directly on the synthetic data.
+
+To run the simulation scripts:
+
+1. Run the model specification files in the `spec` folder, and the corresponding `spec[specnum].rds` files will be created and saved in the `simulation/spec` folder. `spec1.R` is for a simulation study with sample size $n=225$. Most of the simulation results presented in the manuscript used this setup. `spec2.R` is for a sample size of $n=500$, and `spec3.R` is for a sample size of $n=100$. Simulation results under these two sample sizes were presented in the Supplementary Materials, Tables 2-4. Note that these spec files use the synthetic data indirectly through the `application/spec/spec1.rds` file.
+
+2. Model fitting can be done using files in the `run` folder. There are three files in this folder: one (`run1_HSGP.R`) is for the Bayesian model using an HSGP approximation, one (`run1_GP.R`) is for the Bayesian model using a full GP, and one (`run1_FQ.R`) is for the two frequentist runs. For model fitting on the three different model specifications, users need to manually update the `specnum` parameter in these run files. We used SLURM array jobs on a computing server to implement these simulations. The run results will be saved in the `simulation/res` folder.
+
+3. Note that the frequentist run needs to precede the Bayesian model runs. This is because when the sample size is small, there might be no events in the minority groups in some of the simulated datasets. The frequentist run might fail to converge for these datasets. To keep the results comparable, we will not use datasets that result in fitting errors, and will instead generate another dataset using a different seed. Only after finishing the frequentist runs do we know which seeds can be used for the simulated datasets, and the same seeds will be used for the Bayesian runs for comparability. During our implementation, this was only a problem for the $n=100$ set, and there were fewer than five seeds that we needed to discard due to this issue.
+
+4. Use the R script files in the `summary` folder to summarize and visualize the simulation results.
